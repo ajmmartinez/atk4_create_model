@@ -1,0 +1,66 @@
+This simple script that reads a database and all tables on it, then it creates all the necessary files 
+to just copy to atk4/lib/Model and start using it.
+
+Here's a simple example:
+
+Database: test_database;
+Table: usuarios
+
+mysql> describe usuarios;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+| usuario  | varchar(100) | NO   |     | NULL    |                |
+| password | varchar(100) | NO   |     | NULL    |                |
+| rol      | varchar(20)  | YES  |     | O       |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+
+alejandro@alejo_pc /var/www/atk4_create_model $ php create_model
+
+Creating Model For Table: usuarios
+Writing: id Mandatory....
+Writing: usuario Mandatory....
+Writing: password Mandatory....
+Writing: rol Not Mandatory...
+
+
+The output file is something like this:
+
+alejandro@alejo_pc /var/www/atk4_create_model $ cat USUARIOS.php 
+<?php
+
+class Model_USUARIOS extends Model_Table {
+   public $entity_code='usuarios';
+
+   function init(){ 
+      parent::init();
+
+      $this->addField('id')->mandatory('true');
+      $this->addField('usuario')->mandatory('true');
+      $this->addField('password')->mandatory('true');
+      $this->addField('rol');
+   }
+}
+?>
+
+
+Right now, it only checks if the field is mandatory or not. But I plan to add more funtionality.
+
+The result code could be something like this (after copying this file to lib/Model):
+
+<?php
+
+class page_usuarios extends Page {
+
+   function init(){
+      parent::init();
+      $p=$this;
+      $h=$p->add('View_HtmlElement')->setElement('h2')->set('Radio Neuro Cirugia');
+      $usu=$this->add('Model_USUARIOS');
+      $this->add('CRUD')->setModel($usu);
+   }
+}
+?>
