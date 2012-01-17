@@ -1,4 +1,4 @@
-This simple script that reads a database and all tables on it, then it creates all the necessary files 
+This is a very, very simple script that reads a database and all tables on it, then it creates all the necessary files 
 to just copy to atk4/lib/Model and start using it.
 
 Here's a simple example:
@@ -13,7 +13,7 @@ mysql> describe usuarios;
 | id       | int(11)      | NO   | PRI | NULL    | auto_increment |
 | usuario  | varchar(100) | NO   |     | NULL    |                |
 | password | varchar(100) | NO   |     | NULL    |                |
-| rol      | varchar(20)  | YES  |     | O       |                |
+| rol      | varchar(20)  | YES  |     | XX      |                |
 +----------+--------------+------+-----+---------+----------------+
 4 rows in set (0.00 sec)
 
@@ -58,7 +58,7 @@ class page_usuarios extends Page {
    function init(){
       parent::init();
       $p=$this;
-      $h=$p->add('View_HtmlElement')->setElement('h2')->set('Radio Neuro Cirugia');
+      $h=$p->add('View_HtmlElement')->setElement('h2')->set('Users CRUD');
       $usu=$this->add('Model_USUARIOS');
       $this->add('CRUD')->setModel($usu);
    }
